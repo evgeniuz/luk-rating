@@ -33,7 +33,7 @@ TEAM_MAPPING = {
     "Kéisécker": ["Keisecker"],
     "seꑭes": ["senes"],
     "Манія Величі": ["Мания Величия"],
-    "Злобні Урук-хай": ["Злобні урукхаї"],
+    "Злобні Урук-хай": ["Злобні урукхаї", "Злобные Урук-хай"],
     "Харківська весільна слононіжка": ["Харківська Весільна Слононіжка"],
     "Яка вам різниця?": ["Яка Вам Різниця"],
     "Гря хм гагага": ["гря хм гагага"],
@@ -43,6 +43,9 @@ TEAM_MAPPING = {
     "БЗ": ["Б.З."],
     "Команда №2": ["Команда номер 2"],
     "Who knew?": ["Who Knew?"],
+    "Де Лореан?": ["Ми з Миколаєва"],
+    "Західний полюс": ["Захидный полюс"],
+    "Генератор": ["Генератор случайных слов"],
 }
 
 EXCLUDED_TEAMS = ["Пупи та Лупи"]
@@ -85,10 +88,23 @@ def game3():
         yield name, score
 
 
+def game4():
+    with open('raw/tovstolobyk.csv', 'r', encoding='utf-8') as file:
+        reader = csv.reader(file, delimiter=',')
+        next(reader)
+
+        for row in reader:
+            name = row[0]
+            score = int(row[1])
+
+            yield name, score
+
+
 GAMES = {
     "Гра 1": {"loader": game1, "weight": 1},
     "Гра 2": {"loader": game2, "weight": 1},
     "Гра 3": {"loader": game3, "weight": 2},
+    "Гра 4": {"loader": game4, "weight": 1},
 }
 
 

@@ -22,7 +22,8 @@ model = openskill.models.BradleyTerryFull(
 )
 
 TEAM_MAPPING = {
-    "Beit Grand - Аборигени": ["Beit Grand - Аборигены", "Аборигени"],
+    "Цинiчнi бандери": ["Цинічні бандери"],
+    "Beit Grand - Аборигени": ["Beit Grand - Аборигены", "Аборигени", "Аборигени+"],
     "Автопілот": ["Автопилот"],
     "Мінус один": ["Минус один"],
     "Соснова шишечка": ["Сосновая шишечка", "Соснова Шишечка"],
@@ -35,7 +36,7 @@ TEAM_MAPPING = {
     "Манія Величі": ["Мания Величия"],
     "Злобні Урук-хай": ["Злобні урукхаї", "Злобные Урук-хай"],
     "Харківська весільна слононіжка": ["Харківська Весільна Слононіжка"],
-    "Яка вам різниця?": ["Яка Вам Різниця"],
+    "Яка вам різниця?": ["Яка Вам Різниця", "Яка Вам Різниця?"],
     "Гря хм гагага": ["гря хм гагага"],
     "В'язні міста ІФ": ["В'язні міста Іф"],
     "Сливки - Форс-Мажор": ["СФМ"],
@@ -44,11 +45,42 @@ TEAM_MAPPING = {
     "Команда №2": ["Команда номер 2"],
     "Who knew?": ["Who Knew?"],
     "Де Лореан?": ["Ми з Миколаєва"],
-    "Західний полюс": ["Захидный полюс"],
+    "Західний полюс": ["Захидный полюс", "Західний Полюс"],
     "Генератор": ["Генератор случайных слов"],
+    "Пунктуальність": ["Пунктуальность"],
+    "Коментарі Асгарда": ["Комментарии Асгарда"],
+    "Каїсса - Дикий Сад": ["Каисса - Дикий сад"],
+    "Черкаське FIDO": ["Черкасское FIDO"],
+    "Галера надвечір": ["Галена надвечір"],
+    "Серьога Хруст і Гідрогарік": ["Серёга Хруст и ГидрогарикTwo "],
+    "Алкобоги": ["Алокбоги"],
 }
 
-EXCLUDED_TEAMS = ["Пупи та Лупи"]
+EXCLUDED_TEAMS = [
+    "Пупи та Лупи",
+    "Склад фʼючерсної свинини",
+    "Збірна імені Патріка Стара",
+    "Вскуйовджені Хохулі",
+    "GOL",
+    "Лама",
+    "Неможна в ілюмінаторі",
+    "Тжвжик",
+    "This is Sparжааа",
+    "Sich",
+    "Soles",
+    "BBQ test 300",
+    "Чайка на ім'я мартин Іден",
+    "КоньякСпорт",
+    "Playboy Україна",
+    "В пошуках Дорі",
+    "Нет оторвы",
+    "ЗМЗ 2024",
+    "Тореадори з Країни Сонячних Зайчиків",
+    "Бар Міцва",
+    "Rule34",
+    "ДНК",
+    "Андрюша",
+]
 
 
 def game1():
@@ -89,8 +121,8 @@ def game3():
 
 
 def game4():
-    with open('raw/tovstolobyk.csv', 'r', encoding='utf-8') as file:
-        reader = csv.reader(file, delimiter=',')
+    with open("raw/tovstolobyk.csv", "r", encoding="utf-8") as file:
+        reader = csv.reader(file, delimiter=",")
         next(reader)
 
         for row in reader:
@@ -100,11 +132,33 @@ def game4():
             yield name, score
 
 
+def game5():
+    workbook = openpyxl.load_workbook("raw/Результати СинЛУК - Весна.xlsx")
+    sheet = workbook.active
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+        name = row[0]
+        score = row[3]
+
+        yield name, score
+
+
+def game6():
+    workbook = openpyxl.load_workbook("raw/Результати мінор.xlsx")
+    sheet = workbook.active
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+        name = row[0]
+        score = row[7]
+
+        yield name, score
+
+
 GAMES = {
     "Гра 1": {"loader": game1, "weight": 1},
     "Гра 2": {"loader": game2, "weight": 1},
     "Гра 3": {"loader": game3, "weight": 2},
     "Гра 4": {"loader": game4, "weight": 1},
+    "Гра 5": {"loader": game5, "weight": 1},
+    "Гра 6": {"loader": game6, "weight": 2},
 }
 
 

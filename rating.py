@@ -147,7 +147,11 @@ def game6():
     sheet = workbook.active
     for row in sheet.iter_rows(min_row=2, values_only=True):
         name = row[0]
-        score = row[7]
+        tiebreak = row[7]
+        score = row[8]
+
+        if tiebreak is not None:
+            score += tiebreak
 
         yield name, score
 

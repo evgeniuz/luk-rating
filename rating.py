@@ -35,7 +35,7 @@ TEAM_MAPPING = {
     "seꑭes": ["senes"],
     "Манія Величі": ["Мания Величия"],
     "Злобні Урук-хай": ["Злобні урукхаї", "Злобные Урук-хай"],
-    "Харківська весільна слононіжка": ["Харківська Весільна Слононіжка"],
+    "Харківська весільна слононіжка": ["Харківська Весільна Слононіжка", "Слононіжка"],
     "Яка вам різниця?": ["Яка Вам Різниця", "Яка Вам Різниця?"],
     "Гря хм гагага": ["гря хм гагага"],
     "В'язні міста ІФ": ["В'язні міста Іф"],
@@ -54,6 +54,7 @@ TEAM_MAPPING = {
     "Галера надвечір": ["Галена надвечір"],
     "Серьога Хруст і Гідрогарік": ["Серёга Хруст и ГидрогарикTwo "],
     "Алкобоги": ["Алокбоги"],
+    "Lorem City": ["Lorem Ipsum"],
 }
 
 EXCLUDED_TEAMS = [
@@ -156,6 +157,16 @@ def game6():
         yield name, score
 
 
+def game7():
+    workbook = openpyxl.load_workbook("raw/Результати Simply Green.xlsx")
+    sheet = workbook.active
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+        name = row[0]
+        score = row[2]
+
+        yield name, score
+
+
 GAMES = {
     "Гра 1": {"loader": game1, "weight": 1},
     "Гра 2": {"loader": game2, "weight": 1},
@@ -163,6 +174,7 @@ GAMES = {
     "Гра 4": {"loader": game4, "weight": 1},
     "Гра 5": {"loader": game5, "weight": 1},
     "Гра 6": {"loader": game6, "weight": 2},
+    "Гра 7": {"loader": game7, "weight": 1},
 }
 
 
@@ -173,7 +185,9 @@ def preprocess(results):
             variant_to_canonical[variant] = canonical
 
     for team, score in results:
-        canonical_name = variant_to_canonical.get(team, team)
+        trimmed = team.strip()
+
+        canonical_name = variant_to_canonical.get(trimmed, trimmed)
 
         if canonical_name in EXCLUDED_TEAMS:
             continue

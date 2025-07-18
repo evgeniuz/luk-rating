@@ -158,7 +158,7 @@ def game6():
 
 
 def game7():
-    workbook = openpyxl.load_workbook("raw/Результати Simply Green.xlsx")
+    workbook = openpyxl.load_workbook("raw/Результати Simply Green з Mamihlapinatapai.xlsx")
     sheet = workbook.active
     for row in sheet.iter_rows(min_row=2, values_only=True):
         name = row[0]
